@@ -217,12 +217,16 @@ def register(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+    
             user = form.cleaned_data.get('username')
+            form.cleaned_data['is_staff'] = True
+            print(form.cleaned_data['is_staff'])
+            form.save()
+            
             messages.success(request, f'Account was created for {user}')
             return redirect('account.html')
              
-    context = {'form': form, 'messages.success':messages.success}
+    context = {'form': form}
     return render(request, 'main/register.html', context)
 
 
@@ -236,9 +240,7 @@ def account(request, order, items):
 
         if user is not None:
             try:
-                customer = Customer.objects.get(user=user)
-                customer.name = username
-                customer.save()
+                customer = Customer.objects.get_or_create(user=user)
                 login(request, user)
                 messages.success(request, 'You are now logged in')
                 

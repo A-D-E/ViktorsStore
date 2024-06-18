@@ -6,7 +6,7 @@ from .models import buy_and_ship,Contact
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2','is_staff']
         labels = {'username': 'Username', 'email': 'Email'}
         help_texts = {'username': 'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
                       'email': 'Required. Example: XXXXXXXXXXXXXXXX'}
@@ -17,8 +17,7 @@ class CreateUserForm(UserCreationForm):
         """
                    'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
                    'password2': forms.PasswordInput(attrs={'class': 'form-control'})}"""
-
-
+        
 from .models import Contact
 
 class ContactForm(forms.ModelForm):
